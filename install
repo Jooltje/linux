@@ -6,3 +6,6 @@ loadkeys be-latin1
 #Update the system clock
 timedatectl set-ntp true
 timedatectl status
+
+#Create partitions
+parted /dev/sda mklabel gpt mkpart primary vfat 1MiB 513MiB mkpart primary ext4 513MiB 100%  
