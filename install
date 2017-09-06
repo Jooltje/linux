@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env bash
 
 #Set keyboard layout
 loadkeys be-latin1
