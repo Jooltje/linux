@@ -7,7 +7,19 @@ loadkeys be-latin1
 timedatectl set-ntp true
 timedatectl status
 
-#Create partitions
+#Create the partitions
 parted -s /dev/sda mklabel gpt 
 parted -s /dev/sda mkpart primary ext4 1MiB 513MiB 
 parted -s /dev/sda mkpart primary ext4 513MiB 100%  
+
+#Format the partitions
+mkfs.vfat /dev/sda1
+mkfs.ext4 /dev/sda2
+
+#Mount the partitions
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+
+#Install the base packages
+pacstrap /mnt base
