@@ -23,3 +23,26 @@ mount /dev/sda1 /mnt/boot
 
 #Install the base packages
 pacstrap /mnt base
+
+#Generate fstab file
+genfstab -U /mnt >> /mnt/etc/fstab
+cat /mnt/etc/fstab
+
+#Chroot
+arch-chroot /mnt
+
+#Set timezone
+ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
+hwclock --systohc
+
+#Set locale
+echo "en_US.UTF-8 UTF-8" | tee -a /etc/locale.gen
+echo "nl_BE.UTF-8 UTF-8" | tee -a /etc/locale.gen
+locale-gen
+
+echo "LANG=nl_BE.UTF-8" | tee /etc/locale.conf
+echo "KEYMAP=be-latin1" | tee /etc/vconsole.conf
+
+#Set hostname
+echo "home" | tee /etc/hostname
+echo "127.0.1.1 home.network.lan  home" | tee -a /etc/hosts
