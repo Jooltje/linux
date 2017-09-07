@@ -28,6 +28,9 @@ pacstrap /mnt base
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 
+#Select mirrors
+nano /etc/pacman.d/mirrorlist
+
 #Chroot
 arch-chroot /mnt
 
@@ -46,3 +49,17 @@ echo "KEYMAP=be-latin1" | tee /etc/vconsole.conf
 #Set hostname
 echo "home" | tee /etc/hostname
 echo "127.0.1.1 home.network.lan  home" | tee -a /etc/hosts
+
+#Set password
+passwd
+
+#Install bootloader
+pacman -S syslinux gptfdisk mtools
+syslinux-install_update -i -a -m
+nano /boot/syslinux/syslinux.cfg
+
+
+
+
+
+
