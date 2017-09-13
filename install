@@ -58,6 +58,33 @@ pacman -S syslinux gptfdisk mtools
 syslinux-install_update -i -a -m
 nano /boot/syslinux/syslinux.cfg
 
+exit
+reboot
+
+systemctl enable dhcpcd.service
+systemctl start dhcpcd.service
+
+useradd -m -s /bin/bash err
+passwd err
+
+pacman -S sudo
+
+ export EDITOR=nano
+ visudo
+ 
+ err   HOST_NAME=(ALL) ALL
+ 
+ exit
+ 
+ sudo pacman -Syu
+ 
+ -S : Synchronize
+ -y : refresh packages
+ -u : upgrades
+ 
+ sudo pacman -S xorg-server xorg-xinit i3
+ 
+
 
 
 
