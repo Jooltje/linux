@@ -21,15 +21,15 @@ mount /dev/sda2 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
+#Select mirrors
+nano /etc/pacman.d/mirrorlist
+
 #Install the base packages
 pacstrap /mnt base
 
 #Generate fstab file
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
-
-#Select mirrors
-nano /etc/pacman.d/mirrorlist
 
 #Chroot
 arch-chroot /mnt
