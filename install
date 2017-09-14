@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #Set keyboard layout
 loadkeys be-latin1
 
@@ -8,9 +6,9 @@ timedatectl set-ntp true
 timedatectl status
 
 #Create the partitions
-parted -s /dev/sda mklabel gpt 
-parted -s /dev/sda mkpart primary ext4 1MiB 513MiB 
-parted -s /dev/sda mkpart primary ext4 513MiB 100%  
+parted /dev/sda mklabel gpt 
+parted /dev/sda mkpart primary ext4 1MiB 513MiB 
+parted /dev/sda mkpart primary ext4 513MiB 100%  
 
 #Format the partitions
 mkfs.vfat /dev/sda1
@@ -58,33 +56,62 @@ pacman -S syslinux gptfdisk mtools
 syslinux-install_update -i -a -m
 nano /boot/syslinux/syslinux.cfg
 
+#Reboot
 exit
 reboot
 
+#Network
 systemctl enable dhcpcd.service
 systemctl start dhcpcd.service
 
+#User
 useradd -m -s /bin/bash err
 passwd err
 
+#Sudoers
 pacman -S sudo
+export EDITOR=nano
+visudo
+ 
+err   HOST_NAME=(ALL) ALL
 
- export EDITOR=nano
- visudo
+#Logout
+exit
  
- err   HOST_NAME=(ALL) ALL
- 
- exit
- 
- sudo pacman -Syu
+#Login
+
+#Update system
+sudo pacman -Syu
  
  -S : Synchronize
  -y : refresh packages
  -u : upgrades
+
+#Graphical interface
+sudo pacman -S xorg-server xorg-xinit xorg-xrandr xf86-video-fbdev xf86-video-vesa i3 dmenu
+sudo pacman -S virtualbox-guest-utils
+
+nano .xinitrc
+exec i3
+
+sudo nano .config/i3/config
+exec setxkbmap be
+exec xrandr --output VGA-1 --mode 1920x1080
  
- sudo pacman -S xorg-server xorg-xinit xf86-video-fbdev xf86-video-vesa  i3 
- 
- 
+startx
+
+#Firefox
+sudo pacman -S firefox
+
+#Docker
+sudo pacman -S docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker err
+docker run hello-world (relog needed)
+
+#Java
+sudo pacman -S jdk8-openjdk
 
 
 
